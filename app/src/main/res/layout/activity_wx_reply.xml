@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.xiaoxin.jhang.ui.activity.WxReplyActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/tv_all_reply"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全部回复"/>
+
+        <CheckBox
+            android:id="@+id/cb_aotu_reply"
+            android:layout_toRightOf="@+id/tv_all_reply"
+            android:paddingTop="30dp"
+            android:paddingLeft="10dp"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/tv_reply_delete"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="剔除不回复好友:"/>
+
+        <EditText
+            android:id="@+id/et_reply_delete"
+            android:text=""
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_reply_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bt_reply_delete"
+        android:text="剔除"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/wechatName"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="指定回复好友:"/>
+
+        <EditText
+            android:id="@+id/et_reply_friend"
+            android:text=""
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/wechatName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bt_add_reply_friend"
+        android:text="添加"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

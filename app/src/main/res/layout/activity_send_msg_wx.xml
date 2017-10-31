@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/wechatName"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信好友:"/>
+
+        <EditText
+            android:id="@+id/sendName"
+            android:text="臭妮子"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/wechatName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/wechatContent"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发送内容:"/>
+
+
+        <EditText
+            android:id="@+id/sendContent"
+            android:text="哈喽啊"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/wechatContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/tv_sendNumber"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发送数量:"/>
+
+        <EditText
+            android:id="@+id/et_sendNumber"
+            android:text="10"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_sendNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/tv_sendPages"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择发送页面:"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/sp_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/interpolators"
+            android:layout_toRightOf="@+id/tv_sendPages"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="14dp"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <Button
+        android:background="#E63232"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:id="@+id/testWechat"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:text="发送" />
+
+</LinearLayout>

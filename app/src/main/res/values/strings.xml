@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">ReplyMessage</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="accessibility_description">微信自动回复</string>
+
+    <string-array name="interpolators">
+        <item>聊天列表</item>
+        <item>通讯录</item>
+    </string-array>
 </resources>

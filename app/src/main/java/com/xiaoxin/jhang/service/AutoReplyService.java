@@ -22,6 +22,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.xiaoxin.jhang.util.Contant;
 import com.xiaoxin.jhang.util.PerformClickUtils;
+import com.xiaoxin.jhang.util.SharedPreferencesUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,11 +63,27 @@ public class AutoReplyService extends AccessibilityService {
                 for (int i = 0; i < texts.size(); i++) {
                     Log.e("maptrix", "onAccessibilityEvent: "+texts.get(i) );
                 }
-                Log.e("maptrix", "onAccessibilityEvent: "+texts.toString() +texts.size());
-                if (texts.toString().indexOf("臭妮子") == -1) {
-                    Log.e("maptrix", "不包含 不是这个人 不自动回复 " );
-                    return;
+                String name = (texts.toString().substring(0,texts.toString().indexOf(":"))).substring(1);
+                Log.e("maptrix", "onAccessibilityEvent: name"+name+Contant.isAutoReply);
+                if (Contant.isAutoReply) { //全部自动回复
+                    String deleteReplyValues = SharedPreferencesUtils.init(this, Contant.SP_REPLY).getString("deleteReply","");
+                    Log.e(TAG, "deleteReplyValues: "+deleteReplyValues );
+                    if ((deleteReplyValues.indexOf(name)) != -1) {
+                        Log.e("maptrix", "deleteReplyValues " );
+                        return;
+                    }
+                }else {//指定回复
+                    String replyFriendValues = SharedPreferencesUtils.init(this, Contant.SP_REPLY).getString("reply_friend","");
+                    Log.e(TAG, "replyFriendValues: "+replyFriendValues );
+                    if ((replyFriendValues.indexOf(name)) == -1) {
+                        Log.e("maptrix", "不包含 不是这个人 不自动回复 " );
+                        return;
+                    }
                 }
+//                if (texts.toString().indexOf("臭妮子") == -1) {
+//                    Log.e("maptrix", "不包含 不是这个人 不自动回复 " );
+//                    return;
+//                }
                 Log.e("maptrix", "自动回复 " );
                 if (!texts.isEmpty()) {
                     for (CharSequence text : texts) {

@@ -71,7 +71,8 @@ public class WxReplyActivity extends AppCompatActivity implements View.OnClickLi
                 if (mAutoReply.isChecked()) {
                     checkIsNull(deleteReply.getText().toString().trim());
                     Contant.isAutoReply = true;
-                    SharedPreferencesUtils.init(this, Contant.SP_REPLY).putString("deleteReply",deleteReply.getText().toString().trim());
+                    String delteReplyValues = SharedPreferencesUtils.init(this, Contant.SP_REPLY).getString("deleteReply","");
+                    SharedPreferencesUtils.init(this, Contant.SP_REPLY).putString("deleteReply",delteReplyValues + deleteReply.getText().toString().trim());
                 }else {
                     Toast.makeText(this,"请勾选",Toast.LENGTH_SHORT).show();
                 }
@@ -81,7 +82,8 @@ public class WxReplyActivity extends AppCompatActivity implements View.OnClickLi
                     Toast.makeText(this,"请取消勾选",Toast.LENGTH_SHORT).show();
                 }else {
                     Contant.isAutoReply = false;
-                    SharedPreferencesUtils.init(this, Contant.SP_REPLY).putString("reply_friend",replyFriend.getText().toString().trim());
+                    String replyFriendValues = SharedPreferencesUtils.init(this, Contant.SP_REPLY).getString("reply_friend","");
+                    SharedPreferencesUtils.init(this, Contant.SP_REPLY).putString("reply_friend",replyFriendValues + replyFriend.getText().toString().trim());
                     Toast.makeText(this,"添加成功，还可以添加其他好友",Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -90,7 +92,7 @@ public class WxReplyActivity extends AppCompatActivity implements View.OnClickLi
 
     private void checkIsNull(String edittext) {
         if (TextUtils.isEmpty(edittext)) {
-            Toast.makeText(this,"不能为空数据",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"空数据",Toast.LENGTH_SHORT).show();
             return;
         }
     }

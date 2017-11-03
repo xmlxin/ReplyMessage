@@ -1,12 +1,16 @@
 package com.xiaoxin.jhang.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoxin.jhang.R;
@@ -74,12 +78,14 @@ public class WxReplyActivity extends AppCompatActivity implements View.OnClickLi
                     String delteReplyValues = SharedPreferencesUtils.init(this, Contant.SP_REPLY).getString("deleteReply","");
                     SharedPreferencesUtils.init(this, Contant.SP_REPLY).putString("deleteReply",delteReplyValues + deleteReply.getText().toString().trim());
                 }else {
-                    Toast.makeText(this,"请勾选",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this,"请勾选",Toast.LENGTH_SHORT).show();
+                    showSnackbar(deleteReply);
                 }
                 break;
             case R.id.bt_add_reply_friend:
                 if (mAutoReply.isChecked()) {
-                    Toast.makeText(this,"请取消勾选",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this,"请取消勾选",Toast.LENGTH_SHORT).show();
+                    Snackbar.make(replyFriend,"请取消勾选",Snackbar.LENGTH_SHORT).show();
                 }else {
                     Contant.isAutoReply = false;
                     String replyFriendValues = SharedPreferencesUtils.init(this, Contant.SP_REPLY).getString("reply_friend","");
@@ -95,5 +101,24 @@ public class WxReplyActivity extends AppCompatActivity implements View.OnClickLi
             Toast.makeText(this,"空数据",Toast.LENGTH_SHORT).show();
             return;
         }
+    }
+
+    public void showSnackbar(View view) {
+        Snackbar snackbar = Snackbar.make(view, "content", Snackbar.LENGTH_SHORT);
+        snackbar.setAction("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e(TAG, "onClick: sss");
+            }
+        });
+        snackbar.setActionTextColor(Color.RED);
+        TextView tvContent= (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        tvContent.setTextColor(Color.GREEN);//设置snackbar内容颜色
+        snackbar.getView().setBackgroundColor(Color.BLUE);//设置snackbar背景颜色
+
+        // 设置内容图标Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round);
+//        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//        tvContent.setCompoundDrawables(drawable, drawable, drawable, drawable);   // 给TextView左边添加图标tvContent.setGravity(Gravity.CENTER_VERTICAL);  // 让文字居中tvContent.setCompoundDrawablePadding(130); // 设置padding
+        snackbar.show();
     }
 }

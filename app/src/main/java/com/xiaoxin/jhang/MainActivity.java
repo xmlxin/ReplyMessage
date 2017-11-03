@@ -20,6 +20,7 @@ import com.xiaoxin.jhang.activity.SendMsgWx;
 import com.xiaoxin.jhang.activity.SendMsgqq;
 import com.xiaoxin.jhang.activity.WxReplyActivity;
 import com.xiaoxin.jhang.util.SystemUtil;
+import com.xiaoxin.jhang.util.TrackerWindowManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity
     private Button mOpenAeccess,mWxName,mSendMsg,mOutoReply;
     private Toolbar mToolbar;
     private Button mBt_qq;
+    private TrackerWindowManager mWindowManagerUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         initView();
+        mWindowManagerUtil = new TrackerWindowManager(this);
 
     }
 
@@ -160,5 +163,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mWindowManagerUtil.showWindow(this);
+    }
 }

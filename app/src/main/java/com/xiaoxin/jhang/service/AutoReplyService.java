@@ -32,6 +32,10 @@ public class AutoReplyService extends AccessibilityService {
 
     private static final String TAG = "AutoReplyService";
 
+    public static final String COMMAND = "COMMAND";
+    public static final String COMMAND_OPEN = "COMMAND_OPEN";
+    public static final String COMMAND_CLOSE = "COMMAND_CLOSE";
+
     boolean hasAction = false;
     boolean locked = false;
     boolean background = false;
@@ -47,6 +51,40 @@ public class AutoReplyService extends AccessibilityService {
     // 模拟回复
     private List<String> allNameList = new ArrayList<>();
     private int mRepeatCount;
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e(TAG, "onStartCommand");
+
+        String command = intent.getStringExtra(COMMAND);
+        String sendContent = intent.getStringExtra("sendContent");
+        int sendNumber = intent.getIntExtra("sendNumber",0);
+        Log.e("xiaoxin", "sendContent: "+sendContent +"  number" + sendNumber );
+        if(command != null) {
+            if (command.equals(COMMAND_OPEN)) {
+
+            } else if (command.equals(COMMAND_CLOSE)) {
+                //mTrackerWindowManager.removeView();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.e("xiaoxin", "remove view: ");
+                for (int i = 0; i < sendNumber; i++) {
+                    if (fill(sendContent)) {
+                        send();
+                        Log.e("xiaoxin", "send success: " );
+                    }else {
+                        Log.e("xiaoxin", "fill: 复制失败" +fill());
+                    }
+                }
+
+            }
+        }
+
+        return super.onStartCommand(intent, flags, startId);
+    }
 
     /**
      * 必须重写的方法，响应各种事件。
@@ -399,6 +437,15 @@ public class AutoReplyService extends AccessibilityService {
         AccessibilityNodeInfo rootNode = getRootInActiveWindow();
         if (rootNode != null) {
             return findEditText(rootNode, "正在忙,稍后回复你");
+        }
+        return false;
+    }
+
+    @SuppressLint("NewApi")
+    private boolean fill(String content) {
+        AccessibilityNodeInfo rootNode = getRootInActiveWindow();
+        if (rootNode != null) {
+            return findEditTextSend(rootNode, content);
         }
         return false;
     }

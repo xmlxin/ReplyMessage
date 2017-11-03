@@ -1,10 +1,17 @@
-感谢https://github.com/Clearlee/AutoSendWeChatMsg
+本项目是搞着玩的，one cb .
+
+感谢:[模拟消息](https://github.com/Clearlee/AutoSendWeChatMsg)
+
+[轻松自制flyme悬浮球](https://halfstackdeveloper.github.io/2016/11/27/%E8%BD%BB%E6%9D%BE%E8%87%AA%E5%88%B6flyme%E6%82%AC%E6%B5%AE%E7%90%83/)
+
+[Activity 栈](http://blog.csdn.net/a153614131/article/details/53891190)
 
 	TODO:1.去掉id限制
 	     2.添加适配好的qq代码
 		 3.一键@好友
 		 4.一键转发朋友圈
 		 5.。。。。等等 先把上面弄完再说吧
+
 
 2017.11.03：
 	

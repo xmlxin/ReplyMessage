@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.xiaoxin.jhang.activity.SendMsgWx;
 import com.xiaoxin.jhang.activity.WxReplyActivity;
@@ -138,19 +137,14 @@ public class MainActivity extends AppCompatActivity
         switch (v.getId()) {
             case R.id.bt_open_access:
                 SystemUtil.openService(this);
-                Toast.makeText(this,"开启WxReply",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.bt_wxName:
-                Toast.makeText(this,"iv2",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.bt_sendMsg:
                 startActivity(new Intent(this, SendMsgWx.class));
-                Toast.makeText(this,"iv3",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.bt_outoReply:
-                //SharedPreferencesUtils.init(this).putBoolean("wxReply",true);
                 startActivity(new Intent(this, WxReplyActivity.class));
-                Toast.makeText(this,"iv4",Toast.LENGTH_SHORT).show();
                 break;
 
         }

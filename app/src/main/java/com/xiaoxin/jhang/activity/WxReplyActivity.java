@@ -30,28 +30,6 @@ public class WxReplyActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_wx_reply);
 
         initView();
-//        mAutoReply.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                Log.e(TAG, "onCheckedChanged: "+isChecked );
-//                if (isChecked) { //选中
-//                    deleteReply.setFocusableInTouchMode(true);
-//                    deleteReply.setFocusable(true);
-//                    deleteReply.requestFocus();
-//
-//                    replyFriend.setFocusable(false);
-//                    replyFriend.setFocusableInTouchMode(false);
-//                }else { //未选中
-//                    replyFriend.setFocusableInTouchMode(true);
-//                    replyFriend.setFocusable(true);
-//                    replyFriend.requestFocus();
-//
-//                    deleteReply.setFocusable(false);
-//                    deleteReply.setFocusableInTouchMode(false);
-//
-//                }
-//            }
-//        });
 
     }
 
@@ -78,13 +56,11 @@ public class WxReplyActivity extends AppCompatActivity implements View.OnClickLi
                     String delteReplyValues = SharedPreferencesUtils.init(this, Contant.SP_REPLY).getString("deleteReply","");
                     SharedPreferencesUtils.init(this, Contant.SP_REPLY).putString("deleteReply",delteReplyValues + deleteReply.getText().toString().trim());
                 }else {
-                    //Toast.makeText(this,"请勾选",Toast.LENGTH_SHORT).show();
                     showSnackbar(deleteReply);
                 }
                 break;
             case R.id.bt_add_reply_friend:
                 if (mAutoReply.isChecked()) {
-                    //Toast.makeText(this,"请取消勾选",Toast.LENGTH_SHORT).show();
                     Snackbar.make(replyFriend,"请取消勾选",Snackbar.LENGTH_SHORT).show();
                 }else {
                     Contant.isAutoReply = false;

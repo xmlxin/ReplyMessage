@@ -41,15 +41,10 @@ public class SendMsgWx extends AppCompatActivity {
 
         initView();
         initSp();
-
-        /**
-         * 发送消息
-         */
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mSpinner.getSelectedItemPosition();
-                Log.e(TAG, "onClick: "+mSpinner.getSelectedItemPosition() );
                 checkAndStartService();
             }
         });
@@ -142,10 +137,6 @@ public class SendMsgWx extends AppCompatActivity {
         CONTENT = content;
         NUMBER = Integer.parseInt(etSendNumber.getText().toString().trim());
         Contant.selectPages = mSpinner.getSelectedItemPosition() == 0 ? true : false;
-        Log.e("ss", "setValue: NUMBER"+NUMBER);
-        Log.e("sss", "setValue: NUMBER"+etSendNumber.getText().toString());
-        boolean selectpages = mSpinner.getSelectedItemPosition() == 0 ? true : false;
-        Log.e("sss", "setValue: selectpages"+selectpages);
         AutoReplyService.hasSend = false;
         Contant.isMOniSendMsg = true;
     }

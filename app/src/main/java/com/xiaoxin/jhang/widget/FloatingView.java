@@ -3,6 +3,7 @@ package com.xiaoxin.jhang.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,6 +26,8 @@ public class FloatingView extends LinearLayout {
     private final WindowManager mWindowManager;
     private EditText et_conent,et_number;
     private Button mIvClose;
+    private String mNumber;
+    private String mContent;
 
     public FloatingView(Context context) {
         super(context);
@@ -44,12 +47,19 @@ public class FloatingView extends LinearLayout {
             public void onClick(View v) {
                 TrackerWindowManager trackerWindowManager = new TrackerWindowManager(mContext);
                 trackerWindowManager.removeView();
-                Toast.makeText(mContext, "关闭悬浮框", Toast.LENGTH_SHORT).show();
-                mContext.startService(new Intent(mContext, AutoReplyService.class)
-                                .putExtra(AutoReplyService.COMMAND, AutoReplyService.COMMAND_CLOSE)
-                                .putExtra("sendContent",et_conent.getText().toString().trim())
-                                .putExtra("sendNumber",Integer.parseInt(et_number.getText().toString().trim()))
-                );
+                mNumber = et_number.getText().toString().trim();
+                mContent = et_conent.getText().toString().trim();
+                Log.e(TAG, "onClick: "+ mNumber);
+                if (!"".equals(mContent) && !"".equals(mNumber)) {
+                    mContext.startService(new Intent(mContext, AutoReplyService.class)
+                            .putExtra(AutoReplyService.COMMAND, AutoReplyService.COMMAND_CLOSE)
+                            .putExtra("sendContent", mContent)
+                            .putExtra("sendNumber",Integer.parseInt(mNumber))
+                    );
+                }else {
+                    Toast.makeText(mContext,"请填写完整",Toast.LENGTH_SHORT).show();
+                }
+
                 //AutoReplyService.isSend = false;
             }
         });

@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.xiaoxin.jhang.activity.SendMsgWx;
-import com.xiaoxin.jhang.activity.SendMsgqq;
 import com.xiaoxin.jhang.activity.WxReplyActivity;
 import com.xiaoxin.jhang.util.SystemUtil;
 import com.xiaoxin.jhang.util.TrackerWindowManager;
@@ -68,13 +67,11 @@ public class MainActivity extends AppCompatActivity
         mWxName = (Button) findViewById(R.id.bt_wxName);
         mSendMsg = (Button) findViewById(R.id.bt_sendMsg);
         mOutoReply = (Button) findViewById(R.id.bt_outoReply);
-        mBt_qq = (Button) findViewById(R.id.bt_qq);
 
         mOpenAeccess.setOnClickListener(this);
         mWxName.setOnClickListener(this);
         mSendMsg.setOnClickListener(this);
         mOutoReply.setOnClickListener(this);
-        mBt_qq.setOnClickListener(this);
 
     }
 
@@ -154,10 +151,6 @@ public class MainActivity extends AppCompatActivity
                 //SharedPreferencesUtils.init(this).putBoolean("wxReply",true);
                 startActivity(new Intent(this, WxReplyActivity.class));
                 Toast.makeText(this,"iv4",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.bt_qq:
-                startActivity(new Intent(this, SendMsgqq.class));
-                Toast.makeText(this,"iv3",Toast.LENGTH_SHORT).show();
                 break;
 
         }

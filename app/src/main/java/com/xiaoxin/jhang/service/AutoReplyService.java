@@ -35,6 +35,7 @@ public class AutoReplyService extends AccessibilityService {
     public static final String COMMAND = "COMMAND";
     public static final String COMMAND_OPEN = "COMMAND_OPEN";
     public static final String COMMAND_CLOSE = "COMMAND_CLOSE";
+    public String packageName;
 
     boolean hasAction = false;
     boolean locked = false;
@@ -60,6 +61,11 @@ public class AutoReplyService extends AccessibilityService {
         String sendContent = intent.getStringExtra("sendContent");
         int sendNumber = intent.getIntExtra("sendNumber",0);
         Log.e("xiaoxin", "sendContent: "+sendContent +"  number" + sendNumber );
+        if (packageName != null) {
+            Log.e(TAG, "packageName: "+packageName );
+        } else {
+            Log.e(TAG, "packageName: null" );
+        }
         if(command != null) {
             if (command.equals(COMMAND_OPEN)) {
 
@@ -93,6 +99,8 @@ public class AutoReplyService extends AccessibilityService {
     @Override
     public void onAccessibilityEvent(final AccessibilityEvent event) {
         int eventType = event.getEventType();
+        packageName = event.getPackageName().toString();
+        Log.e("xiaoxin", "packageName: "+packageName );
         Log.d("maptrix", "get event = " + eventType);
         switch (eventType) {
             case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:// 通知栏事件,自动回复
@@ -446,6 +454,8 @@ public class AutoReplyService extends AccessibilityService {
         AccessibilityNodeInfo rootNode = getRootInActiveWindow();
         if (rootNode != null) {
             return findEditTextSend(rootNode, content);
+        }else {
+            Log.e("xiaoxin", "rootNode: null" );
         }
         return false;
     }
@@ -523,6 +533,8 @@ public class AutoReplyService extends AccessibilityService {
             arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, content);
             editInfo.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             return true;
+        }else {
+            Log.e("xiaoxin", "editInfo: null" );
         }
         return false;
     }

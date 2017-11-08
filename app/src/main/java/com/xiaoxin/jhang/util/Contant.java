@@ -18,6 +18,7 @@ public class Contant {
     public static boolean selectPages;
 
     public final static String MM_PNAME = "com.tencent.mm";
+    public final static String MOBILEQQ_PNAME = "com.tencent.mobileqq";
 
     public static String mobileqq = "com.tencent.mobileqq.activity.SplashActivity";
 
@@ -26,4 +27,6 @@ public class Contant {
     public static String contactUI_item_id = selectPages ? "com.tencent.mm:id/ajz" : "com.tencent.mm:id/io";
     public static String contactUI_name_id = selectPages ? "com.tencent.mm:id/ak1" : "com.tencent.mm:id/ir";
     public static String chatUI_EditText_id = "com.tencent.mm:id/a71";
+
+    public static String mobileqq_et = "com.tencent.mobileqq:id/input";
 }

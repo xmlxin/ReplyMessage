@@ -55,7 +55,6 @@ public class AutoReplyService extends AccessibilityService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e(TAG, "onStartCommand");
 
         String command = intent.getStringExtra(COMMAND);
         String sendContent = intent.getStringExtra("sendContent");
@@ -66,30 +65,34 @@ public class AutoReplyService extends AccessibilityService {
         } else {
             Log.e(TAG, "packageName: null" );
         }
-        if(command != null) {
-            if (command.equals(COMMAND_OPEN)) {
-
-            } else if (command.equals(COMMAND_CLOSE)) {
-                //mTrackerWindowManager.removeView();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Log.e("xiaoxin", "remove view: ");
-                for (int i = 0; i < sendNumber; i++) {
-                    if (fill(sendContent)) {
-                        send();
-                        Log.e("xiaoxin", "send success: " );
-                    }else {
-                        Log.e("xiaoxin", "fill: 复制失败" +fill());
-                    }
-                }
-
+        if(command != null && !"".equals(command)) {
+            switch (packageName) {
+                case Contant.MM_PNAME:
+                    sendMsg(Contant.chatUI_EditText_id,sendContent,sendNumber);
+                    break;
+                case Contant.MOBILEQQ_PNAME:
+                    sendMsg(Contant.mobileqq_et,sendContent,sendNumber);
+                    break;
             }
         }
-
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void sendMsg(String packageNameEdit, String sendContent,int sendNumber) {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.e("xiaoxin", "remove view: ");
+        for (int i = 0; i < sendNumber; i++) {
+            if (fill(packageNameEdit,sendContent)) {
+                send();
+                Log.e("xiaoxin", "send success: " );
+            }else {
+                Log.e("xiaoxin", "fill: 复制失败" +fill());
+            }
+        }
     }
 
     /**
@@ -104,7 +107,6 @@ public class AutoReplyService extends AccessibilityService {
         Log.d("maptrix", "get event = " + eventType);
         switch (eventType) {
             case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:// 通知栏事件,自动回复
-                Log.d("maptrix", "get notification event");
                 List<CharSequence> texts = event.getText();
                 for (int i = 0; i < texts.size(); i++) {
                     Log.e("maptrix", "onAccessibilityEvent: "+texts.get(i) );
@@ -113,9 +115,7 @@ public class AutoReplyService extends AccessibilityService {
                 Log.e("maptrix", "onAccessibilityEvent: name"+name+Contant.isAutoReply);
                 if (Contant.isAutoReply) { //全部自动回复
                     String deleteReplyValues = SharedPreferencesUtils.init(this, Contant.SP_REPLY).getString("deleteReply","");
-                    Log.e(TAG, "deleteReplyValues: "+deleteReplyValues );
                     if ((deleteReplyValues.indexOf(name)) != -1) {
-                        Log.e("maptrix", "deleteReplyValues " );
                         return;
                     }
                 }else {//指定回复
@@ -138,10 +138,8 @@ public class AutoReplyService extends AccessibilityService {
                             if (isScreenLocked()) {
                                 locked = true;
                                 wakeAndUnlock();
-                                Log.d("maptrix", "the screen is locked");
                                 if (isAppForeground(Contant.MM_PNAME)) {
                                     background = false;
-                                    Log.d("maptrix", "is mm in foreground");
                                     sendNotifacationReply(event);
                                     handler.postDelayed(new Runnable() {
                                         @Override
@@ -154,15 +152,12 @@ public class AutoReplyService extends AccessibilityService {
                                     }, 1000);
                                 } else {
                                     background = true;
-                                    Log.d("maptrix", "is mm in background");
                                     sendNotifacationReply(event);
                                 }
                             } else {
                                 locked = false;
-                                Log.d("maptrix", "the screen is unlocked");
                                 if (isAppForeground(Contant.MM_PNAME)) {
                                     background = false;
-                                    Log.d("maptrix", "is mm in foreground");
                                     sendNotifacationReply(event);
                                     handler.postDelayed(new Runnable() {
                                         @Override
@@ -174,7 +169,6 @@ public class AutoReplyService extends AccessibilityService {
                                     }, 1000);
                                 } else {
                                     background = true;
-                                    Log.d("maptrix", "is mm in background");
                                     sendNotifacationReply(event);
                                 }
                             }
@@ -302,7 +296,6 @@ public class AutoReplyService extends AccessibilityService {
                         String nickname = nodeInfo.getText().toString();
                         Log.e(TAG, "TraversalAndFindContacts: wx name"+nickname );
                     }
-
                 }
 
                 if (nameList != null && !nameList.isEmpty()) {
@@ -401,6 +394,7 @@ public class AutoReplyService extends AccessibilityService {
             pressBackButton();
         }
     }
+
     /**
      * 模拟back按键
      */
@@ -427,10 +421,6 @@ public class AutoReplyService extends AccessibilityService {
             name = cc[0].trim();
             scontent = cc[1].trim();
 
-            Log.i("maptrix", "sender name =" + name);
-            Log.i("maptrix", "sender content =" + scontent);
-
-
             PendingIntent pendingIntent = notification.contentIntent;
             try {
                 pendingIntent.send();
@@ -450,12 +440,10 @@ public class AutoReplyService extends AccessibilityService {
     }
 
     @SuppressLint("NewApi")
-    private boolean fill(String content) {
+    private boolean fill(String edit,String content) {
         AccessibilityNodeInfo rootNode = getRootInActiveWindow();
         if (rootNode != null) {
-            return findEditTextSend(rootNode, content);
-        }else {
-            Log.e("xiaoxin", "rootNode: null" );
+            return findEditTextSend(rootNode, edit,content);
         }
         return false;
     }
@@ -479,27 +467,19 @@ public class AutoReplyService extends AccessibilityService {
     private boolean findEditText(AccessibilityNodeInfo rootNode, String content) {
         int count = rootNode.getChildCount();
 
-        Log.d("maptrix", "root class=" + rootNode.getClassName() + ","+ rootNode.getText()+","+count);
         for (int i = 0; i < count; i++) {
             AccessibilityNodeInfo nodeInfo = rootNode.getChild(i);
             if (nodeInfo == null) {
-                Log.d("maptrix", "nodeinfo = null");
                 continue;
             }
-
-            Log.d("maptrix", "class=" + nodeInfo.getClassName());
-            Log.e("maptrix", "ds=" + nodeInfo.getContentDescription());
             if(nodeInfo.getContentDescription() != null){
                 int nindex = nodeInfo.getContentDescription().toString().indexOf(name);
                 int cindex = nodeInfo.getContentDescription().toString().indexOf(scontent);
-                Log.e("maptrix", "nindex=" + nindex + " cindex=" +cindex);
                 if(nindex != -1){
                     itemNodeinfo = nodeInfo;
-                    Log.i("maptrix", "find node info");
                 }
             }
             if ("android.widget.EditText".equals(nodeInfo.getClassName())) {
-                Log.i("maptrix", "==================");
                 Bundle arguments = new Bundle();
                 arguments.putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_MOVEMENT_GRANULARITY_INT,
                         AccessibilityNodeInfo.MOVEMENT_GRANULARITY_WORD);
@@ -526,15 +506,24 @@ public class AutoReplyService extends AccessibilityService {
         return false;
     }
 
-    private boolean findEditTextSend(AccessibilityNodeInfo rootNode, String content) {
+    private boolean findEditTextSend(AccessibilityNodeInfo rootNode,String content) {
         List<AccessibilityNodeInfo> editInfo = rootNode.findAccessibilityNodeInfosByViewId(Contant.chatUI_EditText_id);
         if(editInfo!=null&&!editInfo.isEmpty()){
             Bundle arguments = new Bundle();
             arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, content);
             editInfo.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             return true;
-        }else {
-            Log.e("xiaoxin", "editInfo: null" );
+        }
+        return false;
+    }
+
+    private boolean findEditTextSend(AccessibilityNodeInfo rootNode, String edit,String content) {
+        List<AccessibilityNodeInfo> editInfo = rootNode.findAccessibilityNodeInfosByViewId(edit);
+        if(editInfo!=null&&!editInfo.isEmpty()){
+            Bundle arguments = new Bundle();
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, content);
+            editInfo.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            return true;
         }
         return false;
     }
@@ -581,10 +570,8 @@ public class AutoReplyService extends AccessibilityService {
      */
     private void back2Home() {
         Intent home = new Intent(Intent.ACTION_MAIN);
-
         home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         home.addCategory(Intent.CATEGORY_HOME);
-
         startActivity(home);
     }
 

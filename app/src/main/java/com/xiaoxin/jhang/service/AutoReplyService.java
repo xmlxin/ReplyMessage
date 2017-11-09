@@ -35,7 +35,7 @@ public class AutoReplyService extends AccessibilityService {
     public static final String COMMAND = "COMMAND";
     public static final String COMMAND_OPEN = "COMMAND_OPEN";
     public static final String COMMAND_CLOSE = "COMMAND_CLOSE";
-    public String packageName;
+    public String packageName,className;
 
     boolean hasAction = false;
     boolean locked = false;
@@ -73,9 +73,46 @@ public class AutoReplyService extends AccessibilityService {
                 case Contant.MOBILEQQ_PNAME:
                     sendMsg(Contant.mobileqq_et,sendContent,sendNumber);
                     break;
+                case Contant.SINA_PNAME:
+                    if (className.equals(Contant.SINA_CLASSNAME)) {
+                        Log.e(TAG, "onStartCommand: classname" );
+                        sendSinaMsg(Contant.sina_reply_et,sendContent,sendNumber);
+                    }else {
+                        Log.e(TAG, "onStartCommand: "+Contant.SINA_PNAME);
+                        sendMsg(Contant.sina_et,sendContent,sendNumber);
+                    }
+                    break;
             }
         }
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void sendSinaMsg(String packageNameEdit, String sendContent,int sendNumber) {
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.e("xiaoxin", "remove view: ");
+        for (int i = 0; i < sendNumber; i++) {
+            if (fill(packageNameEdit,sendContent)) {
+                send();
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                PerformClickUtils.findTextAndClick(this,"评论");
+                Log.e("xiaoxin", "send success: " );
+            }else {
+                Log.e("xiaoxin", "fill: 复制失败");
+            }
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void sendMsg(String packageNameEdit, String sendContent,int sendNumber) {
@@ -88,9 +125,11 @@ public class AutoReplyService extends AccessibilityService {
         for (int i = 0; i < sendNumber; i++) {
             if (fill(packageNameEdit,sendContent)) {
                 send();
+
+                PerformClickUtils.findTextAndClick(this,"评论");
                 Log.e("xiaoxin", "send success: " );
             }else {
-                Log.e("xiaoxin", "fill: 复制失败" +fill());
+                Log.e("xiaoxin", "fill: 复制失败");
             }
         }
     }
@@ -103,10 +142,15 @@ public class AutoReplyService extends AccessibilityService {
     public void onAccessibilityEvent(final AccessibilityEvent event) {
         int eventType = event.getEventType();
         packageName = event.getPackageName().toString();
+        className = event.getClassName().toString();
         Log.e("xiaoxin", "packageName: "+packageName );
+        Log.e("xiaoxin", "className: "+event.getClassName().toString() );
         Log.d("maptrix", "get event = " + eventType);
         switch (eventType) {
             case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:// 通知栏事件,自动回复
+                if (!packageName.equals(Contant.MM_PNAME)) { //不是微信返回
+                    return;
+                }
                 List<CharSequence> texts = event.getText();
                 for (int i = 0; i < texts.size(); i++) {
                     Log.e("maptrix", "onAccessibilityEvent: "+texts.get(i) );
@@ -373,9 +417,9 @@ public class AutoReplyService extends AccessibilityService {
                     .findAccessibilityNodeInfosByText("发送");
             if (list != null && list.size() > 0) {
                 for (AccessibilityNodeInfo n : list) {
-                    if(n.getClassName().equals("android.widget.Button") && n.isEnabled()){
+                    if(n.getClassName().equals("android.widget.Button") || n.getClassName().equals("android.widget.TextView") && n.isEnabled()){
                         n.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                        hasSend = true;  //把这里改成false 就会一直发送 可做成炸群
+                        hasSend = true;  //把这里改成false 就会一直发送 可做成炸群android.widget.Buttonandroid.widget.TextView
                     }
                 }
 
@@ -433,6 +477,7 @@ public class AutoReplyService extends AccessibilityService {
     @SuppressLint("NewApi")
     private boolean fill() {
         AccessibilityNodeInfo rootNode = getRootInActiveWindow();
+        Log.e("xiaoxin", "fill: "+"xiaoxin" );
         if (rootNode != null) {
             return findEditText(rootNode, "正在忙,稍后回复你");
         }
@@ -518,13 +563,19 @@ public class AutoReplyService extends AccessibilityService {
     }
 
     private boolean findEditTextSend(AccessibilityNodeInfo rootNode, String edit,String content) {
+        Log.e(TAG, "findEditTextSend: rootNode"+rootNode.toString() );
         List<AccessibilityNodeInfo> editInfo = rootNode.findAccessibilityNodeInfosByViewId(edit);
+
         if(editInfo!=null&&!editInfo.isEmpty()){
             Bundle arguments = new Bundle();
             arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, content);
             editInfo.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            Log.e("xiaoxin", "findEditTextSend: true");
             return true;
+        }else {
+            Log.e("xiaoxin", "findEditTextSend: null");
         }
+        Log.e("xiaoxin", "findEditTextSend: false"+editInfo.isEmpty() );
         return false;
     }
 

@@ -19,6 +19,9 @@ public class Contant {
 
     public final static String MM_PNAME = "com.tencent.mm";
     public final static String MOBILEQQ_PNAME = "com.tencent.mobileqq";
+    public final static String SINA_PNAME = "com.sina.weibo";
+
+    public final static String SINA_CLASSNAME = "com.sina.weibo.feed.detail.composer.ComposerActivity";
 
     public static String mobileqq = "com.tencent.mobileqq.activity.SplashActivity";
 
@@ -28,5 +31,11 @@ public class Contant {
     public static String contactUI_name_id = selectPages ? "com.tencent.mm:id/ak1" : "com.tencent.mm:id/ir";
     public static String chatUI_EditText_id = "com.tencent.mm:id/a71";
 
+    /** mobile 6.5.16版本 */
     public static String mobileqq_et = "com.tencent.mobileqq:id/input";
+
+    /** sina 6.5.16版本 */
+    public static String sina_et = "com.sina.weibo:id/et_message";
+    public static String sina_reply_et = "com.sina.weibo:id/edit_view";
+
 }

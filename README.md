@@ -1,6 +1,6 @@
 本项目是搞着玩的，one cb .
 
-[体验](https://github.com/xmlxin/ReplyMessage/app-debug.apk)
+[体验](https://github.com/xmlxin/ReplyMessage/blob/master/app-debug.apk?raw=true)
 
 感谢:
 

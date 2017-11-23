@@ -42,6 +42,7 @@ public class FloatingView extends LinearLayout {
         et_number = (EditText) findViewById(R.id.et_number);
         mIvClose = (Button) findViewById(R.id.iv_close);
 
+
         mIvClose.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

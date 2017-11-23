@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.xiaoxin.jhang.util.PerformClickUtils.performClick;
+
 public class AutoReplyService extends AccessibilityService {
 
     private static final String TAG = "AutoReplyService";
@@ -155,6 +157,7 @@ public class AutoReplyService extends AccessibilityService {
                 for (int i = 0; i < texts.size(); i++) {
                     Log.e("maptrix", "onAccessibilityEvent: "+texts.get(i) );
                 }
+                //在微信里面复制 下面这一行会崩溃,回头咱看原因吧
                 String name = (texts.toString().substring(0,texts.toString().indexOf(":"))).substring(1);
                 Log.e("maptrix", "onAccessibilityEvent: name"+name+Contant.isAutoReply);
                 if (Contant.isAutoReply) { //全部自动回复
@@ -221,15 +224,29 @@ public class AutoReplyService extends AccessibilityService {
                 }
                 break;
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
-
+                Log.e("xinxin", "TYPE_WINDOW_STATE_CHANGED: "+event.getText().toString() );
                     //sendMsg = true;
-
                 if (Contant.isMOniSendMsg) {
                     moniSendMsg(event);
                 }else {
                     reply(event);
                 }
 
+                break;
+            case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED:
+                Log.e("xinxin", "onAccessibilityEvent: "+event.getText().toString() );
+                if (!"".equals(event.getText().toString()) && event.getText().toString() != null) {
+                    if (event.getText().toString().equals("[太子党]")) {
+                        AccessibilityNodeInfo accessibilityNodeInfo = getRootInActiveWindow();
+                        if (accessibilityNodeInfo == null) {
+                            return;
+                        }
+                        List<AccessibilityNodeInfo> editNodeInfo = accessibilityNodeInfo.findAccessibilityNodeInfosByText("太子党");
+                        Bundle arguments = new Bundle();
+                        arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "你想请喝茶吗，注意言词");
+                        editNodeInfo.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+                    }
+                }
                 break;
         }
     }
@@ -281,7 +298,7 @@ public class AutoReplyService extends AccessibilityService {
                 PerformClickUtils.findTextAndClick(this,"微信");
                 AccessibilityNodeInfo itemInfo = TraversalAndFindContacts();
                 if (itemInfo != null) {
-                    PerformClickUtils.performClick(itemInfo);
+                    performClick(itemInfo);
                     for (int i = 0; i < PerformClickUtils.NUMBER; i++) {
                         if(fillSend(i)){
                             send();
@@ -296,7 +313,7 @@ public class AutoReplyService extends AccessibilityService {
                 //getWxName();
                 AccessibilityNodeInfo itemInfo = TraversalAndFindContacts();
                 if (itemInfo != null) {
-                    PerformClickUtils.performClick(itemInfo);
+                    performClick(itemInfo);
                 }else {
                     hasSend=true;
                 }
@@ -502,7 +519,6 @@ public class AutoReplyService extends AccessibilityService {
         return false;
     }
 
-
     /**
      * 通过rootNode 填充内容
      * @param rootNode
@@ -599,21 +615,6 @@ public class AutoReplyService extends AccessibilityService {
         }
 
         return false;
-    }
-
-
-    /**
-     * 将当前应用运行到前台
-     */
-    private void bring2Front() {
-        ActivityManager activtyManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> runningTaskInfos = activtyManager.getRunningTasks(3);
-        for (ActivityManager.RunningTaskInfo runningTaskInfo : runningTaskInfos) {
-            if (this.getPackageName().equals(runningTaskInfo.topActivity.getPackageName())) {
-                activtyManager.moveTaskToFront(runningTaskInfo.id, ActivityManager.MOVE_TASK_WITH_HOME);
-                return;
-            }
-        }
     }
 
     /**

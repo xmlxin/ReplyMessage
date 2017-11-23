@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import com.xiaoxin.jhang.R;
 import com.xiaoxin.jhang.widget.FloatingView;
 
+import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+
 /**
  * Created by jinliangshan on 16/12/26.
  * http://blog.csdn.net/iromkoear/article/details/68936832
@@ -52,7 +54,7 @@ public class TrackerWindowManager {
         params.width = WindowManager.LayoutParams.WRAP_CONTENT;
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.gravity = Gravity.LEFT | Gravity.TOP;
-        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT; //TYPE_PHONE
+        params.type = TYPE_SYSTEM_ALERT; //TYPE_PHONE
         params.format = PixelFormat.RGBA_8888;
         params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
 //                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
@@ -92,7 +94,7 @@ public class TrackerWindowManager {
             param.width = WindowManager.LayoutParams.WRAP_CONTENT;
             param.height = WindowManager.LayoutParams.WRAP_CONTENT;
             param.gravity = Gravity.LEFT | Gravity.TOP;
-            param.type = WindowManager.LayoutParams.TYPE_TOAST;
+            param.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;//TYPE_SYSTEM_ALERT  TYPE_TOAST
             param.format = PixelFormat.RGBA_8888;
             param.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;

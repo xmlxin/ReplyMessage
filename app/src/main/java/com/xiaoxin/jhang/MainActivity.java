@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Button;
 
 import com.xiaoxin.jhang.activity.SendMsgWx;
 import com.xiaoxin.jhang.activity.WxReplyActivity;
+import com.xiaoxin.jhang.util.JumpPermissionManagement;
 import com.xiaoxin.jhang.util.SystemUtil;
 import com.xiaoxin.jhang.util.TrackerWindowManager;
 
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
     private static final String TAG = "MainActivity";
-    private Button mOpenAeccess,mWxName,mSendMsg,mOutoReply;
+    private Button mOpenAeccess,mWxName,mSendMsg,mOutoReply,mOpenPermission;
     private Toolbar mToolbar;
     private Button mBt_qq;
     private TrackerWindowManager mWindowManagerUtil;
@@ -33,7 +35,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -66,11 +67,13 @@ public class MainActivity extends AppCompatActivity
         mWxName = (Button) findViewById(R.id.bt_wxName);
         mSendMsg = (Button) findViewById(R.id.bt_sendMsg);
         mOutoReply = (Button) findViewById(R.id.bt_outoReply);
+        mOpenPermission = (Button) findViewById(R.id.bt_open_permission);
 
         mOpenAeccess.setOnClickListener(this);
         mWxName.setOnClickListener(this);
         mSendMsg.setOnClickListener(this);
         mOutoReply.setOnClickListener(this);
+        mOpenPermission.setOnClickListener(this);
 
     }
 
@@ -138,6 +141,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.bt_open_access:
                 SystemUtil.openService(this);
                 break;
+            case R.id.bt_open_permission:
+                JumpPermissionManagement.GoToSetting(this);
+                break;
             case R.id.bt_wxName:
                 break;
             case R.id.bt_sendMsg:
@@ -154,5 +160,6 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         mWindowManagerUtil.showWindow(this);
+        Log.e(TAG, "onDestroy: ");
     }
 }

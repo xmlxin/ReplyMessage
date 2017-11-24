@@ -9,13 +9,6 @@ package com.xiaoxin.jhang.msg;
 
 public class TextMsg {
 
-    public static String getWxMsg() {
-        for (int i = 0; i < 10; i++) {
-
-        }
-
-        return wxMsg;
-    }
 
     public static final String wxMsg = "定\n" +
             "海\n" +

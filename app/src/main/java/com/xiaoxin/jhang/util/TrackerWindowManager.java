@@ -97,7 +97,8 @@ public class TrackerWindowManager {
             param.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;//TYPE_SYSTEM_ALERT  TYPE_TOAST
             param.format = PixelFormat.RGBA_8888;
             param.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                    | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                    | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                    |WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;//设备常亮
             view.setLayoutParams(param);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

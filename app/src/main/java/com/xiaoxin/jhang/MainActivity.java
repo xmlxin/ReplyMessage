@@ -15,9 +15,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.xiaoxin.jhang.activity.SendMsgWx;
 import com.xiaoxin.jhang.activity.WxReplyActivity;
+import com.xiaoxin.jhang.util.CheckPermissionUtil;
 import com.xiaoxin.jhang.util.JumpPermissionManagement;
 import com.xiaoxin.jhang.util.SystemUtil;
 import com.xiaoxin.jhang.util.TrackerWindowManager;
@@ -142,7 +144,11 @@ public class MainActivity extends AppCompatActivity
                 SystemUtil.openService(this);
                 break;
             case R.id.bt_open_permission:
-                JumpPermissionManagement.GoToSetting(this);
+                if (!CheckPermissionUtil.isAlertWindowAllowed(this))  {
+                    JumpPermissionManagement.GoToSetting(this);
+                }else {
+                    Toast.makeText(this,"权限已开启", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.bt_wxName:
                 break;

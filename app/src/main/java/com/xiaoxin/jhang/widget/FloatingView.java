@@ -48,6 +48,7 @@ public class FloatingView extends LinearLayout {
             public void onClick(View v) {
                 TrackerWindowManager trackerWindowManager = new TrackerWindowManager(mContext);
                 trackerWindowManager.removeView();
+
                 mNumber = et_number.getText().toString().trim();
                 mContent = et_conent.getText().toString().trim();
                 Log.e(TAG, "onClick: "+ mNumber);

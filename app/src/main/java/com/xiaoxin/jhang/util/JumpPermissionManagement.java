@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.v7.appcompat.BuildConfig;
 import android.util.Log;
+
+import com.xiaoxin.jhang.BuildConfig;
 
 /**
  * Created by hkq325800 on 2017/4/14.
@@ -82,7 +83,7 @@ public class JumpPermissionManagement {
 
     public static void Xiaomi(Activity activity) {
         Intent intent = new Intent("miui.intent.action.APP_PERM_EDITOR");
-        ComponentName componentName = new ComponentName("com.miui.securitycenter", "com.miui.permcenter.permissions.AppPermissionsEditorActivity");
+        ComponentName componentName = new ComponentName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
         intent.setComponent(componentName);
         intent.putExtra("extra_pkgname", BuildConfig.APPLICATION_ID);
         activity.startActivity(intent);

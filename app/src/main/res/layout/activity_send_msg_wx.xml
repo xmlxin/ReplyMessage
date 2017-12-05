@@ -19,7 +19,7 @@
 
         <EditText
             android:id="@+id/sendName"
-            android:text="臭妮子"
+            android:text="xxx"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/wechatName"
             android:layout_width="match_parent"

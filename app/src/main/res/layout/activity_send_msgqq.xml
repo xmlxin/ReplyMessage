@@ -19,7 +19,7 @@
 
         <EditText
             android:id="@+id/sendNameqq"
-            android:text="段凌宇"
+            android:text="xxx"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/wechatNameqq"
             android:layout_width="match_parent"

@@ -154,13 +154,19 @@ public class AutoReplyService extends AccessibilityService {
                     return;
                 }
                 List<CharSequence> texts = event.getText();
+                Log.e(TAG, "onAccessibilityEvent: "+event.getText() );
                 for (int i = 0; i < texts.size(); i++) {
                     Log.e("maptrix", "onAccessibilityEvent: "+texts.get(i) );
                 }
                 //在微信里面复制 下面这一行会崩溃,回头咱看原因吧
-                String name = (texts.toString().substring(0,texts.toString().indexOf(":"))).substring(1);
+                String name = null;
+                try {
+                    name = (texts.toString().substring(0,texts.toString().indexOf(":"))).substring(1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 Log.e("maptrix", "onAccessibilityEvent: name"+name+Contant.isAutoReply);
-                if (Contant.isAutoReply) { //全部自动回复
+                if (true) { //全部自动回复Contant.isAutoReply
                     String deleteReplyValues = SharedPreferencesUtils.init(this, Contant.SP_REPLY).getString("deleteReply","");
                     if ((deleteReplyValues.indexOf(name)) != -1) {
                         return;
@@ -168,15 +174,13 @@ public class AutoReplyService extends AccessibilityService {
                 }else {//指定回复
                     String replyFriendValues = SharedPreferencesUtils.init(this, Contant.SP_REPLY).getString("reply_friend","");
                     Log.e(TAG, "replyFriendValues: "+replyFriendValues );
-                    if ((replyFriendValues.indexOf(name)) == -1) {
-                        Log.e("maptrix", "不包含 不是这个人 不自动回复 " );
-                        return;
+                    if (replyFriendValues != null) {
+                        if ((replyFriendValues.indexOf(name)) == -1) {
+                            Log.e("maptrix", "不包含 不是这个人 不自动回复 " );
+                            return;
+                        }
                     }
                 }
-//                if (texts.toString().indexOf("臭妮子") == -1) {
-//                    Log.e("maptrix", "不包含 不是这个人 不自动回复 " );
-//                    return;
-//                }
                 Log.e("maptrix", "自动回复 " );
                 if (!texts.isEmpty()) {
                     for (CharSequence text : texts) {
@@ -293,14 +297,19 @@ public class AutoReplyService extends AccessibilityService {
          * log显示的是getRootInActiveWindow()没有返回任何东西，暂时无法解决
          * 如果微信已经打开，再次操作就没有问题
          */
+        Log.e(TAG, "moniSendMsg:过来了 " +currentActivity);
         if(currentActivity.equals("com.tencent.mm.ui.LauncherUI")) {
             if (Contant.selectPages) {
+                Log.e(TAG, "moniSendMsg:过来了 11" );
                 PerformClickUtils.findTextAndClick(this,"微信");
                 AccessibilityNodeInfo itemInfo = TraversalAndFindContacts();
                 if (itemInfo != null) {
+                    Log.e(TAG, "moniSendMsg:过来了 222" );
                     performClick(itemInfo);
                     for (int i = 0; i < PerformClickUtils.NUMBER; i++) {
+                        Log.e(TAG, "moniSendMsg:过来了 333" );
                         if(fillSend(i)){
+                            Log.e(TAG, "moniSendMsg:过来了 444" );
                             send();
                             Log.e(TAG, "moniSendMsg: 发送消息" );
                         }
@@ -314,6 +323,14 @@ public class AutoReplyService extends AccessibilityService {
                 AccessibilityNodeInfo itemInfo = TraversalAndFindContacts();
                 if (itemInfo != null) {
                     performClick(itemInfo);
+//                    for (int i = 0; i < PerformClickUtils.NUMBER; i++) {
+//                        Log.e(TAG, "moniSendMsg:过来了 333" );
+//                        if(fillSend(i)){
+//                            Log.e(TAG, "moniSendMsg:过来了 444" );
+//                            send();
+//                            Log.e(TAG, "moniSendMsg: 发送消息" );
+//                        }
+//                    }
                 }else {
                     hasSend=true;
                 }
@@ -322,6 +339,14 @@ public class AutoReplyService extends AccessibilityService {
             PerformClickUtils.findTextAndClick(this,"发消息");
         }else if(currentActivity.equals("com.tencent.mm.ui.chatting.En_5b8fbb1e")){
             Log.e("sss", "moniSendMsg:number " +PerformClickUtils.NUMBER);
+            for (int i = 0; i < PerformClickUtils.NUMBER; i++) {
+                if(fillSend(i)){
+                    send();
+                    Log.e(TAG, "moniSendMsg: 发送消息" );
+                }
+            }
+            Contant.isMOniSendMsg = false;
+        }else if ("com.tencent.mm.ui.chatting.ChattingUI".equals(currentActivity)) {//微信聊天页面
             for (int i = 0; i < PerformClickUtils.NUMBER; i++) {
                 if(fillSend(i)){
                     send();

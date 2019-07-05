@@ -93,6 +93,7 @@
             android:layout_height="wrap_content"
             android:entries="@array/interpolators"
             android:layout_toRightOf="@+id/tv_sendPages"
+            android:background="@null"
             android:paddingBottom="8dp"
             android:paddingEnd="16dp"
             android:paddingStart="16dp"

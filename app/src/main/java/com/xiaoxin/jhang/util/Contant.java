@@ -32,10 +32,17 @@ public class Contant {
 //    public static String chatUI_EditText_id = "com.tencent.mm:id/a71";
 
     /** wx6.5.19版本 */
-    public static String contactUI_listview_id = selectPages  ? "com.tencent.mm:id/bt0" : "com.tencent.mm:id/i9";
-    public static String contactUI_item_id = selectPages ? "com.tencent.mm:id/ajz" : "com.tencent.mm:id/io";
-    public static String contactUI_name_id = selectPages ? "com.tencent.mm:id/ak1" : "com.tencent.mm:id/ir";
-    public static String chatUI_EditText_id = "com.tencent.mm:id/a9o";
+//    public static String contactUI_listview_id = selectPages  ? "com.tencent.mm:id/bt0" : "com.tencent.mm:id/i9";
+//    public static String contactUI_item_id = selectPages ? "com.tencent.mm:id/ajz" : "com.tencent.mm:id/io";
+//    public static String contactUI_name_id = selectPages ? "com.tencent.mm:id/ak1" : "com.tencent.mm:id/ir";
+//    public static String chatUI_EditText_id = "com.tencent.mm:id/a9o";
+
+    /** wx7.0.4版本 */
+    public static String contactUI_listview_id = selectPages  ? "com.tencent.mm:id/d1v" : "com.tencent.mm:id/n3";
+    public static String contactUI_item_id = selectPages ? "com.tencent.mm:id/b6c" : "com.tencent.mm:id/nx";
+    public static String contactUI_name_id = selectPages ? "com.tencent.mm:id/b6e" : "com.tencent.mm:id/o1";
+    //文本内容控件
+    public static String chatUI_EditText_id = "com.tencent.mm:id/ami";
 
     /** mobile 6.5.16版本 */
     public static String mobileqq_et = "com.tencent.mobileqq:id/input";
